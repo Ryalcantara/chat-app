@@ -1,4 +1,4 @@
-# Next.js Chat App
+# Next.js Chat App (WIP)
 ## 🚀 Initial Implementation with Socket.io WebSockets and Supabase Data
 This chat application leverages Socket.io for real-time communication and Supabase for data management.
 
