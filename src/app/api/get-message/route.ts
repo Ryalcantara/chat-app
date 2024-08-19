@@ -1,6 +1,6 @@
 import { supabase, supabaseAdmin } from "@/lib/supabase";
 
-export const dynamic = "force-dynamic"
+// export const dynamic = "force-dynamic"
 export async function GET(req: Request, res: Response){
     try {
         const { data, error } = await supabaseAdmin
