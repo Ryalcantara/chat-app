@@ -2,7 +2,7 @@
 'use client';
 
 import { socket } from "@/socket"; 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface Message {
     id: string;
@@ -24,8 +24,11 @@ function Messages({ data }: MessagesProps) {
     const [checkConnection, setCheckConnection] = useState('');
     const [transport, setTransport] = useState("N/A");
     const [messages, setMessages] = useState<Message[]>(data.success);
+    const messagesEndRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
+
+   
         function onConnect() {
             setIsConnected(true); 
             setTransport(socket.io.engine.transport.name); 
@@ -37,8 +40,11 @@ function Messages({ data }: MessagesProps) {
         }
 
 
-        function onNewMessage(newMessage) {
+        function onNewMessage(newMessage: any) {
             setMessages((prevMessages) => [...prevMessages, newMessage]);
+            if (messagesEndRef.current) {
+                messagesEndRef.current.scrollTop = messagesEndRef.current.scrollHeight;
+            }
         }
 
         // Listen for new messages from the server
@@ -59,18 +65,19 @@ function Messages({ data }: MessagesProps) {
             socket.off('new-message', onNewMessage); // Cleanup on unmount
         };
     }, []);
-
+    useEffect(() => {
+        if (messagesEndRef.current) {
+          messagesEndRef.current.scrollTop = messagesEndRef.current.scrollHeight;
+        }
+      }, [messages]);
     return (
-        <>
-            <p>Status: {isConnected ? "connected" : "disconnected"}</p>
-            <p>From Server: {checkConnection}</p> {/* Display message received from the server */}
-            <p>Transport: {transport}</p> 
-            {messages.map((item: Message) => (
-                <div key={item.id} className="rounded-full bg-black text-white p-3 flex w-fit">
+        <div className="overflow-y-auto flex items-end flex-col gap-4" ref={messagesEndRef} >
+            {messages.map((item: Message, index: number) => (
+                <div key={index} className="rounded-full bg-black text-white p-3 flex w-fit" >
                     {item.message_content}
                 </div>
             ))}
-        </>
+        </div>
     );
 }
 

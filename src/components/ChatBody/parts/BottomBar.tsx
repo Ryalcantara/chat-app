@@ -4,13 +4,13 @@ import { Input } from '../../ui/input';
 import { Button } from '@/components/ui/button';
 import { Send } from 'react-feather';
 import { useRouter } from 'next/navigation';
-import { socket } from "@/socket"; // Import the socket instance
+import { socket } from "@/socket";
 
 function BottomBar() {
   const router = useRouter();
   const [message, setMessage] = useState('');
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!message) {
       return alert('none to send');
@@ -39,8 +39,8 @@ function BottomBar() {
     }
   };
 
-  const onChange = (e) => {
-    setMessage(e.target.value);
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setMessage(e.target?.value);
   };
 
   return (

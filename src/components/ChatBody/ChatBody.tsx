@@ -17,11 +17,10 @@ async function ChatBody() {
 
   const data = await response.json()
 
-
   return (
     <div className='flex flex-col w-full justify-between overflow-auto'
       style={{
-        height: 'calc(100dvh - 40px)'
+        height: 'calc(100dvh)',
       }}>
       <div className='overflow-auto flex flex-col items-end gap-4'>
      <Messages data={data} />
